@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Ubuntu System Check - Sample Guide</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body class="md-theme">
+    <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar">
+        <div class="md-sidebar__scrollwrap">
+            <div class="md-sidebar__inner">
+                <nav class="md-nav">
+                    <ul class="md-nav__list">
+                        <li class="md-nav__item">
+                            <a href="../index.html" class="md-nav__link">메인으로 돌아가기</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+        <div class="md-sidebar__scrollwrap">
+            <div class="md-sidebar__inner"></div>
+        </div>
+    </div>
+
+    <div class="md-content">
+        <article class="md-content__inner">
+            <h1 id="ubuntu-system">우분투 시스템 정보 확인</h1>
+            
+            <section id="cpu-information">
+                <h2>CPU 정보 확인</h2>
+                
+                <h3 id="check-full-cpu">CPU 전체 정보 확인</h3>
+                <pre><code>cat /proc/cpuinfo</code></pre>
+                <p>이 명령어는 시스템에 장착된 CPU의 상세 정보를 보여줍니다.</p>
+                
+                <h3 id="check-cpu-cores">CPU 코어 수 확인</h3>
+                <pre><code>grep -c processor /proc/cpuinfo</code></pre>
+                <p>이 명령어는 물리적 CPU의 코어 수를 확인합니다.</p>
+                
+                <h3 id="check-cpu-model">CPU 모델명 확인</h3>
+                <pre><code>cat /proc/cpuinfo | grep 'model name' | uniq</code></pre>
+                <p>이 명령어는 CPU의 모델명을 중복 없이 보여줍니다.</p>
+                
+                <h4>CPU 온도 확인</h4>
+                <pre><code>sensors</code></pre>
+                <p>sensors 명령어를 사용하기 위해서는 lm-sensors 패키지를 설치해야 합니다:</p>
+                <pre><code>sudo apt-get install lm-sensors
+sudo sensors-detect
+sensors</code></pre>
+            </section>
+
+            <section id="memory-information">
+                <h2>메모리 정보 확인</h2>
+                
+                <h3 id="check-memory">메모리 사용량 확인</h3>
+                <pre><code>free -h</code></pre>
+                <p>이 명령어는 현재 시스템의 메모리 사용량을 사람이 읽기 쉬운 형식으로 보여줍니다.</p>
+                
+                <h3 id="monitor-memory">메모리 모니터링</h3>
+                <pre><code>top</code></pre>
+                <p>이 명령어는 현재 실행 중인 프로세스와 함께 CPU 및 메모리 사용량을 실시간으로 보여줍니다.</p>
+                
+                <h3 id="memory-details">메모리 상세 정보</h3>
+                <pre><code>cat /proc/meminfo</code></pre>
+                <p>시스템의 자세한 메모리 정보를 확인할 수 있습니다.</p>
+                
+                <h4>스왑 정보 확인</h4>
+                <pre><code>swapon --show</code></pre>
+                <p>현재 활성화된 스왑 파티션의 정보를 보여줍니다.</p>
+            </section>
+
+            <section id="disk-information">
+                <h2>디스크 정보</h2>
+                
+                <h3 id="disk-usage">디스크 사용량</h3>
+                <pre><code>df -h</code></pre>
+                <p>시스템의 디스크 사용량을 human-readable 형식으로 보여줍니다.</p>
+                
+                <h3 id="disk-partitions">파티션 정보</h3>
+                <pre><code>sudo fdisk -l</code></pre>
+                <p>시스템의 모든 디스크와 파티션 정보를 보여줍니다.</p>
+                
+                <h3 id="disk-io">디스크 I/O 상태</h3>
+                <pre><code>iostat -x 1</code></pre>
+                <p>실시간으로 디스크의 I/O 상태를 모니터링합니다.</p>
+            </section>
+
+            <section id="network-information">
+                <h2>네트워크 정보</h2>
+                
+                <h3 id="network-interfaces">네트워크 인터페이스</h3>
+                <pre><code>ip addr show</code></pre>
+                <p>시스템의 모든 네트워크 인터페이스 정보를 보여줍니다.</p>
+                
+                <h3 id="network-connections">네트워크 연결 상태</h3>
+                <pre><code>netstat -tuln</code></pre>
+                <p>현재 열려있는 포트와 네트워크 연결 상태를 보여줍니다.</p>
+            </section>
+
+            <section id="process-information">
+                <h2>프로세스 정보</h2>
+                
+                <h3 id="process-list">프로세스 목록</h3>
+                <pre><code>ps aux</code></pre>
+                <p>시스템에서 실행 중인 모든 프로세스의 목록을 보여줍니다.</p>
+                
+                <h3 id="process-details">프로세스 상세 정보</h3>
+                <pre><code>htop</code></pre>
+                <p>대화형 프로세스 뷰어로, 시스템 프로세스를 실시간으로 모니터링할 수 있습니다.</p>
+                <pre><code>sudo apt install htop  # htop 설치</code></pre>
+            </section>
+
+            <section id="system-logs">
+                <h2>시스템 로그</h2>
+                
+                <h3 id="system-journal">시스템 저널 확인</h3>
+                <pre><code>journalctl</code></pre>
+                <p>systemd 저널의 모든 로그를 확인할 수 있습니다.</p>
+                
+                <h3 id="system-messages">시스템 메시지</h3>
+                <pre><code>cat /var/log/syslog</code></pre>
+                <p>시스템의 전반적인 메시지와 이벤트를 확인할 수 있습니다.</p>
+                
+                <h3 id="auth-logs">인증 로그</h3>
+                <pre><code>sudo cat /var/log/auth.log</code></pre>
+                <p>시스템의 인증 관련 로그를 확인할 수 있습니다. 로그인 시도, sudo 사용 등이 기록됩니다.</p>
+            </section>
+        </article>
+    </div>
+
+    <script src="../scripts.js"></script>
+</body>
+</html>
